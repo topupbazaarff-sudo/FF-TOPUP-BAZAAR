@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FF TOPUP BAZAR — Admin Panel</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <div class="brand-mark">🔥</div>
+      <h1>FF TOPUP BAZAR</h1>
+      <p>Admin Panel</p>
+      <form id="loginForm">
+        <label>Admin Email</label>
+        <input id="loginEmail" type="email" placeholder="admin@example.com" required>
+        <label>Password</label>
+        <input id="loginPassword" type="password" placeholder="••••••••" required>
+        <button class="primary-btn" type="submit">🔐 Login</button>
+      </form>
+      <small class="demo-note">ডেমো ডিজাইন: এখনো real authentication/database যুক্ত হয়নি।</small>
+    </div>
+  </div>
+
+  <div class="app hidden" id="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="side-brand">
+        <div class="logo">🔥</div>
+        <div><strong>FF TOPUP</strong><span>BAZAR ADMIN</span></div>
+      </div>
+      <nav>
+        <button class="nav-item active" data-page="dashboard">📊 <span>Dashboard</span></button>
+        <button class="nav-item" data-page="orders">🧾 <span>Orders</span></button>
+        <button class="nav-item" data-page="packages">💎 <span>Packages</span></button>
+        <button class="nav-item" data-page="payments">💰 <span>Payments</span></button>
+        <button class="nav-item" data-page="settings">⚙️ <span>Settings</span></button>
+      </nav>
+      <div class="side-bottom">
+        <a href="../" class="visit-btn">🌐 View Website</a>
+        <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="menu-btn" id="menuBtn">☰</button>
+        <div>
+          <div class="top-title" id="pageTitle">Dashboard</div>
+          <div class="top-subtitle">ফ্রী ফায়ার টপ আপ বাজার</div>
+        </div>
+        <div class="admin-profile"><span class="online-dot"></span><span>Admin</span></div>
+      </header>
+
+      <section class="content">
+        <div id="dashboardPage" class="page">
+          <div class="page-head">
+            <div><h2>Dashboard</h2><p>আজকের website activity এক নজরে দেখুন।</p></div>
+            <button class="gold-btn" id="refreshBtn">↻ Refresh</button>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card"><span>🧾</span><div><small>Total Orders</small><strong id="statTotal">125</strong></div></div>
+            <div class="stat-card pending"><span>🕐</span><div><small>Pending</small><strong id="statPending">12</strong></div></div>
+            <div class="stat-card completed"><span>✅</span><div><small>Completed</small><strong id="statCompleted">108</strong></div></div>
+            <div class="stat-card revenue"><span>৳</span><div><small>Total Revenue</small><strong id="statRevenue">৳25,450</strong></div></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h3>Recent Orders</h3><button class="text-btn" data-go="orders">View All →</button></div>
+            <div class="table-wrap">
+              <table><thead><tr><th>Order ID</th><th>UID</th><th>Package</th><th>Amount</th><th>Status</th></tr></thead>
+              <tbody id="recentOrders"></tbody></table>
+            </div>
+          </div>
+        </div>
+
+        <div id="ordersPage" class="page hidden">
+          <div class="page-head">
+            <div><h2>Order Management</h2><p>Customer orders দেখুন এবং status update করুন।</p></div>
+            <button class="gold-btn" id="addDemoOrder">＋ Demo Order</button>
+          </div>
+          <div class="toolbar">
+            <input id="orderSearch" type="search" placeholder="🔎 Order ID, UID বা player name খুঁজুন...">
+            <select id="orderFilter"><option value="all">সব Status</option><option value="Pending">Pending</option><option value="Processing">Processing</option><option value="Completed">Completed</option><option value="Cancelled">Cancelled</option></select>
+          </div>
+          <div class="panel">
+            <div class="table-wrap">
+              <table><thead><tr><th>Order</th><th>Customer</th><th>Package</th><th>Payment</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="ordersTable"></tbody></table>
+            </div>
+          </div>
+        </div>
+
+        <div id="packagesPage" class="page hidden">
+          <div class="page-head">
+            <div><h2>Package Management</h2><p>Diamond ও Membership package-এর demo management।</p></div>
+            <button class="gold-btn" id="newPackageBtn">＋ Add Package</button>
+          </div>
+          <div class="package-grid" id="packageGrid"></div>
+        </div>
+
+        <div id="paymentsPage" class="page hidden">
+          <div class="page-head">
+            <div><h2>Payment Management</h2><p>bKash Transaction ID এবং payment status দেখুন।</p></div>
+          </div>
+          <div class="payment-info"><div><span>💳 bKash Number</span><strong>01712567757</strong></div><div><span>📱 WhatsApp</span><strong>01983287983</strong></div></div>
+          <div class="panel">
+            <div class="table-wrap">
+              <table><thead><tr><th>Order ID</th><th>Amount</th><th>Method</th><th>Transaction ID</th><th>Payment Status</th></tr></thead>
+              <tbody id="paymentsTable"></tbody></table>
+            </div>
+          </div>
+        </div>
+
+        <div id="settingsPage" class="page hidden">
+          <div class="page-head"><div><h2>Website Settings</h2><p>এগুলো এখন local demo settings হিসেবে কাজ করবে।</p></div></div>
+          <div class="settings-card">
+            <label>Website Name</label><input id="setName" value="ফ্রী ফায়ার টপ আপ বাজার">
+            <label>bKash Number</label><input id="setBkash" value="01712567757">
+            <label>WhatsApp Number</label><input id="setWhatsapp" value="01983287983">
+            <label>Website Notice</label><textarea id="setNotice">অর্ডার করার আগে UID ও Transaction ID সঠিকভাবে দিন।</textarea>
+            <button class="primary-btn" id="saveSettings">💾 Save Settings</button>
+            <div class="save-message" id="saveMessage"></div>
+          </div>
+          <div class="warning-box">⚠️ এই version-এ settings browser-এর localStorage-এ demo হিসেবে সংরক্ষণ হবে। Real website-এর জন্য database/backend যুক্ত করতে হবে।</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal hidden" id="orderModal">
+    <div class="modal-card">
+      <button class="close-btn" data-close="orderModal">×</button>
+      <h3>Order Details</h3>
+      <div id="orderDetails"></div>
+      <div class="modal-actions">
+        <button class="status-btn processing" data-status="Processing">Processing</button>
+        <button class="status-btn completed" data-status="Completed">Completed</button>
+        <button class="status-btn cancelled" data-status="Cancelled">Cancelled</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="packageModal">
+    <div class="modal-card">
+      <button class="close-btn" data-close="packageModal">×</button>
+      <h3>Add Package</h3>
+      <form id="packageForm">
+        <label>Package Name</label><input id="pkgName" required placeholder="যেমন: 240 Diamonds">
+        <label>Price (৳)</label><input id="pkgPrice" type="number" min="1" required placeholder="160">
+        <label>Category</label><select id="pkgCategory"><option>Diamonds</option><option>Membership</option><option>Special</option></select>
+        <button class="primary-btn" type="submit">Save Package</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
